@@ -1,8 +1,10 @@
 from textblob import TextBlob
+import streamlit as st
 
-text = input('Type your text here: ')
 
-def model(text=text):
+input_text = st.text_area('Type your text here: ')
+
+def model(text=input_text):
     
     analysis = TextBlob(text).sentiment
     polarity = round(analysis[0], 2)
@@ -33,7 +35,7 @@ def model(text=text):
             'subjectivity':subjectivity, 'subjectivity_class':subjectivity_class}
 
 
-def print_output(results=results):
+def output(results=results):
     
     comment_polarity = ''
     
@@ -46,7 +48,7 @@ def print_output(results=results):
     if results['polarity_class'] == 'neutral':
         comment_polarity = 'There are sertain markers that your text has neutral connotation. You can change this level by adding negative or positive words.'
         
-        print(f"""
+        return f"""
 The analysis of polarity has shown that your text is {results['polarity_class']}.
 
 The polarity score is {results['polarity']}. {comment_polarity}
@@ -54,9 +56,11 @@ The polarity score is {results['polarity']}. {comment_polarity}
 the analysis of subjectivity has shown that your text is {results['subjectivity_class']}.
 
 The subjectivity score is {results['subjectivity']}.
-           """)
+           """
 
 
 
 results = model()
-print_output()
+output_text = output()
+
+st.write(output_text)
