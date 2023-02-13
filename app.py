@@ -1,10 +1,14 @@
 from textblob import TextBlob
 import streamlit as st
+st.set_page_config(page_title="Mood Master", page_icon=":grinning:")
+
+st.title(":grinning: Mood Master App")
+st.subheader("This app helps you identify emotional connotation of your text as well as its subjectivity. Enter your text in the area below and get the summary of the analysis")
+
+input_text = st.text_input('Enter your text here: ')
 
 
-input_text = st.text_area('Type your text here: ')
-
-def model(text=input_text):
+def model(text):
     
     analysis = TextBlob(text).sentiment
     polarity = round(analysis[0], 2)
@@ -29,13 +33,16 @@ def model(text=input_text):
         subjectivity_class = 'closer to subjective'
         
     elif (subjectivity >= 0.25) & (subjectivity <= 0.75):
-        subjectivity_class = 'hard to detect subjectivity'
+        subjectivity_class = 'hard to detect its subjectivity'
         
     return {'polarity':polarity, 'polarity_class':polarity_class, 
             'subjectivity':subjectivity, 'subjectivity_class':subjectivity_class}
 
 
-def output(results=results):
+model_results = model(input_text)
+
+
+def output(results):
     
     comment_polarity = ''
     
@@ -51,16 +58,17 @@ def output(results=results):
         return f"""
 The analysis of polarity has shown that your text is {results['polarity_class']}.
 
-The polarity score is {results['polarity']}. {comment_polarity}
+The polarity score is {results['polarity']}. 
+{comment_polarity}
 
-the analysis of subjectivity has shown that your text is {results['subjectivity_class']}.
+The analysis of subjectivity has shown that your text is {results['subjectivity_class']}.
 
 The subjectivity score is {results['subjectivity']}.
            """
 
 
+if input_text:
 
-results = model()
-output_text = output()
+    output_results = output(model_results)
 
-st.write(output_text)
+    output_text = st.text(output_results)
