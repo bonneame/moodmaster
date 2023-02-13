@@ -4,7 +4,9 @@ st.set_page_config(page_title="Mood Master", page_icon=":grinning:")
 
 st.title(":grinning: Mood Master App")
 st.subheader("This app helps you identify emotional connotation of your text as well as its subjectivity. Enter your text in the area below and get the summary of the analysis")
-st.caption('Please, write your text without quotes. The results summary will contain% \n The polarity score of your text where -1 is very negative and 1 is very positive \n The subjectivity score where 0 is very objective and 1 is very subjective')
+st.caption('Please, write your text without quotes. The results summary will contain:')
+st.caption('The polarity score of your text where **-1** is very negative and **1** is very positive')
+st.caption('The subjectivity score where **0** is very objective and **1** is very subjective')
 
 input_text = st.text_input('Enter your text here: ')
 
